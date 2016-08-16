@@ -31,11 +31,11 @@ import backtype.storm.utils.Utils;
 
 
 /**
- * {@link ThroughputCounterOutputCollector} wraps a output collector to monitor the output streams of a bolt.
+ * {@link ThroughputOutputCollector} wraps a output collector to monitor the output streams of a bolt.
  * 
  * @author Matthias J. Sax
  */
-class ThroughputCounterOutputCollector extends OutputCollector {
+class ThroughputOutputCollector extends OutputCollector {
 	
 	/** The internally used counter. */
 	private final BoltThroughputCounter counter;
@@ -43,14 +43,14 @@ class ThroughputCounterOutputCollector extends OutputCollector {
 	
 	
 	/**
-	 * Instantiates a new {@link ThroughputCounterOutputCollector}.
+	 * Instantiates a new {@link ThroughputOutputCollector}.
 	 * 
 	 * @param collector
 	 *            The original output collector.
 	 * @param reportStream
 	 *            The ID of the report stream.
 	 */
-	public ThroughputCounterOutputCollector(OutputCollector collector, String reportStream) {
+	public ThroughputOutputCollector(OutputCollector collector, String reportStream) {
 		super(collector);
 		this.counter = new BoltThroughputCounter(collector, reportStream, false);
 	}

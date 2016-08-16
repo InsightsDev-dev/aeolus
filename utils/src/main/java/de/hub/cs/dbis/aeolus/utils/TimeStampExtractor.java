@@ -31,7 +31,7 @@ import backtype.storm.tuple.Values;
  * {@link TimeStampExtractor} extract the timestamp from a given {@link Tuple} or {@link Values}. (Type {@code T} is
  * expected to be either {@link Tuple} (for usage in bolts) or {@link Values} (for usage in spouts).)
  * 
- * @author mjsax
+ * @author Matthias J. Sax
  */
 public interface TimeStampExtractor<T> extends Serializable {
 	

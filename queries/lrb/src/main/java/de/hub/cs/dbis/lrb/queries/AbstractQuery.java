@@ -34,8 +34,8 @@ import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
 import backtype.storm.generated.StormTopology;
 import backtype.storm.topology.IRichSpout;
-import backtype.storm.topology.TopologyBuilder;
 import backtype.storm.utils.Utils;
+import de.hub.cs.dbis.aeolus.monitoring.MonitoringTopoloyBuilder;
 import de.hub.cs.dbis.aeolus.spouts.DataDrivenStreamRateDriverSpout;
 import de.hub.cs.dbis.aeolus.spouts.DataDrivenStreamRateDriverSpout.TimeUnit;
 import de.hub.cs.dbis.aeolus.utils.TimestampMerger;
@@ -88,13 +88,13 @@ abstract class AbstractQuery {
 	 * @param outputs
 	 *            The output information for sinks (ie, file paths)
 	 */
-	abstract void addBolts(TopologyBuilder builder, OptionSet options);
+	abstract void addBolts(MonitoringTopoloyBuilder builder, OptionSet options);
 	
 	/**
 	 * Partial topology set up (adding spout and dispatcher bolt).
 	 */
 	private final StormTopology createTopology(OptionSet options, boolean realtime) {
-		TopologyBuilder builder = new TopologyBuilder();
+		MonitoringTopoloyBuilder builder = new MonitoringTopoloyBuilder();
 		
 		IRichSpout spout = new FileReaderSpout();
 		if(realtime) {
@@ -144,6 +144,7 @@ abstract class AbstractQuery {
 		
 		final Config config = new Config();
 		config.put(FileReaderSpout.INPUT_FILE_NAME, options.valueOf(inputOption));
+		// config.setDebug(true);
 		
 		
 		

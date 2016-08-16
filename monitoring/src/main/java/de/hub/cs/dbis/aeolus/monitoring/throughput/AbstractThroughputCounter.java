@@ -45,10 +45,7 @@ import backtype.storm.tuple.Values;
  * 
  * @author Matthias J. Sax
  */
-public abstract class AbstractThroughputCounter {
-	
-	/** The default ID of the report stream. */
-	public final static String DEFAULT_STATS_STREAM = "aeolus::throughput";
+abstract class AbstractThroughputCounter {
 	
 	/** The name of the timestamp attribute. */
 	public final static String TS_ATTRIBUTE = "ts";

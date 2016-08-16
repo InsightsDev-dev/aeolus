@@ -27,22 +27,23 @@ import backtype.storm.spout.SpoutOutputCollector;
 import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.IRichSpout;
 import backtype.storm.topology.OutputFieldsDeclarer;
+import de.hub.cs.dbis.aeolus.monitoring.MonitoringTopoloyBuilder;
 
 
 
 
 
 /**
- * {@link ThroughputCounterSpout} counts the number of emitted tuples and reports the count in regular intervals. The
- * counts are grouped by stream ID and and overall count is reported, too.<br />
+ * {@link ThroughputSpout} counts the number of emitted tuples and reports the count in regular intervals. The counts
+ * are grouped by stream ID and and overall count is reported, too.<br />
  * <br />
  * Internally, it uses a {@link SpoutThroughputCounter}.
  * 
  * @author Matthias J. Sax
  */
-public class ThroughputCounterSpout implements IRichSpout {
+public class ThroughputSpout implements IRichSpout {
 	private final static long serialVersionUID = 7077749897674933208L;
-	private final static Logger logger = LoggerFactory.getLogger(ThroughputCounterSpout.class);
+	private final static Logger logger = LoggerFactory.getLogger(ThroughputSpout.class);
 	
 	/** The original user spout. */
 	private IRichSpout userSpout;
@@ -59,21 +60,20 @@ public class ThroughputCounterSpout implements IRichSpout {
 	
 	
 	/**
-	 * Instantiates a new {@link ThroughputCounterSpout} that report the throughput of the given spout to the default
-	 * report stream {@link AbstractThroughputCounter#DEFAULT_STATS_STREAM}.
+	 * Instantiates a new {@link ThroughputSpout} that report the throughput of the given spout to the default report
+	 * stream {@link MonitoringTopoloyBuilder#DEFAULT_THROUGHPUT_STREAM}.
 	 * 
 	 * @param userSpout
 	 *            The user spout to be monitored.
 	 * @param interval
 	 *            The reporting interval in milliseconds.
 	 */
-	public ThroughputCounterSpout(IRichSpout userSpout, long interval) {
-		this(userSpout, interval, AbstractThroughputCounter.DEFAULT_STATS_STREAM);
+	public ThroughputSpout(IRichSpout userSpout, long interval) {
+		this(userSpout, interval, MonitoringTopoloyBuilder.DEFAULT_THROUGHPUT_STREAM);
 	}
 	
 	/**
-	 * Instantiates a new {@link ThroughputCounterSpout} that report the throughput of the given spout to the specified
-	 * stream
+	 * Instantiates a new {@link ThroughputSpout} that report the throughput of the given spout to the specified stream
 	 * 
 	 * @param userSpout
 	 *            The user spout to be monitored.
@@ -82,7 +82,7 @@ public class ThroughputCounterSpout implements IRichSpout {
 	 * @param reportStream
 	 *            The name of the report stream.
 	 */
-	public ThroughputCounterSpout(IRichSpout userSpout, long interval, String reportStream) {
+	public ThroughputSpout(IRichSpout userSpout, long interval, String reportStream) {
 		this.userSpout = userSpout;
 		this.interval = interval;
 		this.reportStream = reportStream;
@@ -92,8 +92,7 @@ public class ThroughputCounterSpout implements IRichSpout {
 	
 	@Override
 	public void open(@SuppressWarnings("rawtypes") Map conf, TopologyContext context, SpoutOutputCollector collector) {
-		ThroughputCounterSpoutOutputCollector col = new ThroughputCounterSpoutOutputCollector(collector,
-			this.reportStream);
+		ThroughputSpoutOutputCollector col = new ThroughputSpoutOutputCollector(collector, this.reportStream);
 		
 		this.reporter = new SpoutReportingThread(col, this.interval);
 		this.reporter.start();

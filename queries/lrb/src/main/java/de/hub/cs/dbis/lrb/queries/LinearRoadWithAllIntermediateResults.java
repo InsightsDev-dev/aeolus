@@ -23,7 +23,7 @@ import java.io.IOException;
 import joptsimple.OptionSet;
 import backtype.storm.generated.AlreadyAliveException;
 import backtype.storm.generated.InvalidTopologyException;
-import backtype.storm.topology.TopologyBuilder;
+import de.hub.cs.dbis.aeolus.monitoring.MonitoringTopoloyBuilder;
 
 
 
@@ -49,7 +49,7 @@ public class LinearRoadWithAllIntermediateResults extends AbstractQuery {
 	
 	
 	@Override
-	protected void addBolts(TopologyBuilder builder, OptionSet options) {
+	protected void addBolts(MonitoringTopoloyBuilder builder, OptionSet options) {
 		this.accQuery.addBolts(builder, options);
 		this.tollQuery.addBolts(builder, options);
 	}
